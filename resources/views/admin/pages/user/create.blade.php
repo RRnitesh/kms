@@ -4,6 +4,8 @@
 
 @include('partials.alerts')
 
+
+
 <section class="content">
   <div class="container-fluid">
     <div class="row justify-content-center">

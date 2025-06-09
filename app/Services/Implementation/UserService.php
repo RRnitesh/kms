@@ -68,9 +68,10 @@ class UserService extends BaseService implements UserServiceInterface{
     {
         if ($file) {
             $path = $file->store(Upload::USER_PROFILE_PATH, 'public');
+            // if path exist-- rdto-filename=path
             $dto->profile_image = $path;
         }
 
-        return $this->userRepository->createUserWithImage($dto->toArray());
+        return $this->userRepository->createUserWithImage($dto->toArray(9));
     }
 }

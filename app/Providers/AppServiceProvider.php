@@ -9,6 +9,8 @@ use App\Services\Implementation\UserService;
 use App\Services\Interface\UserServiceInterface;
 use App\Services\Interface\FileUploadServiceInterface;
 use App\Services\Implementation\FileUploadService;
+use AuthService;
+use AuthServiceInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\ServiceProvider;
 
@@ -26,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
         // it says to refer to that userserice 
 
           $this->app->bind(FileUploadServiceInterface::class, FileUploadService::class);
+          
+          $this->app->bind(AuthServiceInterface::class, AuthService::class);
     }
 
     public function boot(): void

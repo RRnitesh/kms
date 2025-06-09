@@ -5,7 +5,7 @@ namespace App\Repository\Interface;
 
 interface BaseRepositoryInterface{
 
-
+  public function all();
   // allow optional per page override based on different model
   public function paginate(? int $perPage = null);
 

@@ -20,9 +20,9 @@ class BaseRepository implements BaseRepositoryInterface {
     return $this->model;
   }
 
-  // public function all(){
-  //   return $this->model->all();
-  // }
+  public function all(){
+    return $this->model->all();
+  }
   
 
   public function find($id){

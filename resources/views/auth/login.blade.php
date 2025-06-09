@@ -1,68 +1,56 @@
 @extends('layouts.app')
 
-@push('styles')
-    <link rel="stylesheet" href="{{ asset('assets/css/login.css')}}">
-@endpush
-
+@section('styles')
+    <link rel="stylesheet" href="{{ asset('asset/css/login.css') }}">
+@endsection
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center min-vh-100 align-items-center">
-        <div class="col-md-6 col-lg-4">
-            <div class="card shadow-lg">
-                <div class="card-body p-4">
-                    <div class="text-center mb-4">
-                        <div class="login-logo mb-3">
-                            <a href="#" class="h2 text-primary font-weight-bold">K<span class="text-dark">M</span><span class="text-primary">S</span></a>
-                        </div>
-                        <h4 class="mb-0">Welcome Back</h4>
-                        <p class="text-muted">Sign in to continue</p>
-                    </div>
 
-                    <form method="POST" action="{{ route('auth.login') }}">
-                        @csrf
+<form action="{{ route('auth.login') }}" method="POST" id="Login">
+    @csrf
 
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="fas fa-envelope text-muted"></i>
-                                </span>
-                                <input type="email" name="email" class="form-control border-start-0" 
-                                       placeholder="Email" required autofocus>
-                            </div>
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="input-group">
-                                <span class="input-group-text bg-light border-end-0">
-                                    <i class="fas fa-lock text-muted"></i>
-                                </span>
-                                <input type="password" name="password" class="form-control border-start-0" 
-                                       placeholder="Password" required>
-                            </div>
-                        </div>
-
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <div class="form-check">
-                                <input class="form-check-input" type="checkbox" id="remember" name="remember">
-                                <label class="form-check-label" for="remember">Remember me</label>
-                            </div>
-                            {{-- <a href="{{ route('') }}" class="text-decoration-none">Forgot password?</a> --}}
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100 py-2 mb-3">
-                            <i class="fas fa-sign-in-alt me-2"></i> Sign In
-                        </button>
-
-                        <div class="text-center text-muted mt-3">
-                            Don't have an account? 
-                            {{-- <a href="{{ route('') }}" class="text-decoration-none">Sign up</a> --}}
-                        </div>
-                    </form>
-                </div>
-            </div>
+    <!-- Left section of the form -->
+    <div class="left">
+        <div>
+            <p>Hello, Welcome!</p>
+            <span>dont have an account??</span>
+            {{-- {{ route('register') }} --}}
+            <a href="{{ route('home.register') }}">
+                <input type="button" value="Register" />
+            </a>
         </div>
     </div>
-</div>
 
+    <!-- Right section of the form -->
+    <div class="right">
+        <div >
+            <h1>Login</h1>
+            <!-- Username -->
+   
+                
+
+            <input type="email" name="username" id="username" placeholder="Enter username or email"
+            value={{ old('username') }}>
+            <span class="text-danger">
+   @error('username')
+   {{$message}}
+   @enderror
+            </span>
+         
+             
+
+            <!-- Password -->
+
+            <input type="password" name="password" id="password" placeholder="Enter password" >
+            @error('password')
+                <div class="error" style="color: red;">{{ $message }}</div>
+            @enderror
+
+
+            <a href="#">Forgot Password?</a>
+
+            <button type="submit">Login</button>
+        </div>
+    </div>
+</form>
 @endsection

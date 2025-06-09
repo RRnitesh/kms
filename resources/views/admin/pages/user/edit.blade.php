@@ -1,4 +1,4 @@
-@extends('admin.main.app') {{-- or your AdminLTE layout --}}
+@extends('admin.main.app')
 
 @section('content')
 
@@ -9,25 +9,43 @@
         <div class="card-header">
             <h3 class="card-title">Edit User</h3>
         </div>
+
         <!-- form start -->
-        <form action="{{ route('users.update', $user->id) }}" method="POST">
+        <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
 
             <div class="card-body">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name"
-                           name="name" value="{{ $user->name }}" required>
-                </div>
+                <div class="row">
+                    <!-- Profile image -->
+                    <div class="col-md-4 d-flex justify-content-center align-items-center">
+                        <div style="width: 200px; height: 200px; border: 1px solid #ccc; overflow: hidden; border-radius: 8px;">
+                            <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile Image" 
+                                 style="width: 100%; height: 100%; object-fit: cover;">
+                        </div>
+                    </div>
 
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" class="form-control" id="email"
-                           name="email" value="{{ $user->email }}" required>
-                </div>
+                    <!-- Form fields -->
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="name">Name</label>
+                            <input type="text" class="form-control" id="name"
+                                   name="name" value="{{ $user->name }}" required>
+                        </div>
 
-                <!-- Add more fields as needed -->
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email"
+                                   name="email" value="{{ $user->email }}" required>
+                        </div>
+
+                        <!-- You can add profile image upload option too -->
+                        <div class="form-group">
+                            <label for="profile_image">Change Profile Image</label>
+                            {{-- <input type="file" class="form-control-file" name="profile_image" id="profile_image"> --}}
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div class="card-footer">
@@ -37,4 +55,5 @@
         </form>
     </div>
 </div>
+
 @endsection

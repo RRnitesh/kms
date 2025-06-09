@@ -4,4 +4,6 @@ import $ from 'jquery';
 
 window.$ = window.jQuery = $;
 
-import 'admin-lte';
+
+
+// kms\public\asset\js\app.js

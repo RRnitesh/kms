@@ -7,6 +7,7 @@ use App\DTO\UserDTO\UserSaveDTO;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Services\Interface\UserServiceInterface;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class UserController extends Controller
 {
@@ -35,7 +36,8 @@ class UserController extends Controller
   public function index(){
 
     //perpage = 
-    $data['users'] = $this->userService->paginate();
+    // $data['users'] = $this->userService->paginate();
+    $data['users'] = $this->userService->all();
     // dd($data);
     // return view($this->view . 'index', ['data' => $data]);
     return view('admin.pages.user.index', $data);

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\HomeController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Home\HomeController as HomeHomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,6 +14,16 @@ use Illuminate\Support\Facades\Route;
 
 //     // Route::get('/login', 'login')->name('auth.login');
 // });
+
+Route::get('/', [HomeHomeController::class, 'index'])->name('home.index');
+Route::get('/login',[HomeHomeController::class, 'login'])->name('home.login');
+Route::get('/register', [HomeHomeController::class, 'register'])->name('home.register');
+
+
+
+Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
+
+
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
 
