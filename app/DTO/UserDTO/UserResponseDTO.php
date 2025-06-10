@@ -3,6 +3,7 @@
 namespace App\DTO\UserDTO;
 
 use App\Models\User;
+use App\Constant\Upload;
 
 class UserResponseDTO{
   // data we want to display to the user
@@ -10,17 +11,20 @@ class UserResponseDTO{
   public string $name;
   public string $email;
   public ?string $profile_image;
+  public string $profile_image_url; // added property
+
   // $userDTO = new UserResponseDTO($user->id, $user->name, $user->email);
 
   // in the service we can define the dto like this but
   // in long run it becomes overcrowed say long
 
   // initalize the dto data 
-  public function __construct(int $id,string $name,string $email,?string $profile_image = null) {
+  public function __construct(int $id,string $name,string $email,?string $profile_image = null, string $profile_image_url = '') {
     $this->id = $id;
     $this->name = $name;
     $this->email = $email;
     $this->profile_image = $profile_image;
+    $this->profile_image_url = $profile_image_url;
   }
 
   // instead of sending data we create method where are send all data 
@@ -37,6 +41,9 @@ class UserResponseDTO{
       $user->name,
       $user->email,
       $user->profile_image,
+      $user->profile_image 
+        ? asset('storage/' . Upload::USER_PROFILE_PATH . '/' . $user->profile_image)
+        : asset('images/default-profile.png'),
     );
   }
 
@@ -65,6 +72,7 @@ class UserResponseDTO{
       'name' => $this->name,
       'email' => $this->email,
       'profile_image' => $this->profile_image,
+      'profile_image_url' => $this->profile_image_url, // include in array
     ];
   }
 }

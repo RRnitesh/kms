@@ -34,8 +34,8 @@
                   <td>{{ $user->name }}</td>
                   <td>{{ $user->email }}</td>
                   <td>
-                    <img src="{{ asset('storage/' . $user->profile_image)}}" alt="" 
-                      style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                    <img src="{{ $user->profile_image_url }}" alt="Profile Image"
+                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
                   </td>
                   <td>
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">

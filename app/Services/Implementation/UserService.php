@@ -6,26 +6,34 @@ namespace App\Services\Implementation;
 use App\Constant\Upload;
 use App\DTO\UserDTO\UserResponseDTO;
 use App\DTO\UserDTO\UserSaveDTO;
+use App\Models\Trash;
 use App\Repository\Interface\UserRepositoryInterface;
 use Faker\Guesser\Name;
 
 use App\Services\Implementation\BaseService;
+use App\Services\Interface\FileUpLoadServiceInterface;
 use App\Services\Interface\UserServiceInterface;
 use Illuminate\Http\UploadedFile;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+use App\Models\User;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Contracts\Cache\Store;
 
 class UserService extends BaseService implements UserServiceInterface{
     // since we inherited the base service all the 
     // public method are to accessed by the UserService
     //  $userRepository
     protected UserRepositoryInterface $userRepository;
-    public function __construct(UserRepositoryInterface $userRepository) {
+    protected FileUpLoadServiceInterface $fileService;
+    public function __construct(UserRepositoryInterface $userRepository,
+    FileUpLoadServiceInterface $fileService) {
         // but here we are passing the user repo interface
         // so that only the interface defined method can be called
         // or used.
         // parent::__construct($userRepository);
         parent::__construct($userRepository);
         $this->userRepository = $userRepository;
+        $this->fileService = $fileService;
 
         // $this->userRepository = $userRepository;
     }
@@ -66,12 +74,44 @@ class UserService extends BaseService implements UserServiceInterface{
     
         public function createUserWithImage(UserSaveDTO $dto, ?UploadedFile $file = null)
     {
+        // $data = $dto->toArray();
+        // dd($data);
+        // dd($file);
         if ($file) {
-            $path = $file->store(Upload::USER_PROFILE_PATH, 'public');
-            // if path exist-- rdto-filename=path
+            $path = $this->fileService->uploadImage($file, Upload::USER_PROFILE_PATH, 'public');
+            
             $dto->profile_image = $path;
         }
 
-        return $this->userRepository->createUserWithImage($dto->toArray(9));
+        return $this->userRepository->createUserWithImage($dto->toArray());
     }
+
+
+    public function updateUser($id, $data, ?UploadedFile $file = null)
+    {    
+    $user = $this->userRepository->find($id);
+    
+    if($file) // if uploads image 
+    {
+        
+        $oldProfilePath = $user->profile_image;
+
+            if($oldProfilePath) // if user have previous profile image then move that image to trash.
+            {
+                // $this->userRepos-ository->moveToTrash();
+                $this->moveToTrash($user->id, $oldProfilePath);
+            }
+
+            // if user uploads photo then new image is saved; 
+            $path = $this->fileService->uploadImage($file, Upload::USER_PROFILE_PATH, 'public');         
+            // $request->profile_image = $path;
+            // $user->profile_image = $path; 
+            $data['profile_image'] = $path;     
+    }  
+    // dd($data);
+    $this->userRepository->update($id,  $data);
+
+    }
+
+
 }

@@ -9,4 +9,8 @@ use Illuminate\Http\UploadedFile;
 interface UserServiceInterface extends BaseServiceInterface 
 {
       public function createUserWithImage(UserSaveDTO $dto, ?UploadedFile $file = null);
+
+      public function updateUser($id, $request, ?UploadedFile $file = null);
+
+      // public function moveToTrash($id, $oldProfilePath);
 }

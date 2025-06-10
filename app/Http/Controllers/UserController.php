@@ -75,7 +75,7 @@ class UserController extends Controller
   // }
   public function store(StoreUserRequest $request){
     $validated = $request->validated();
-
+    // dd($validated);
     // user saving dto 
     $userDTO = new UserSaveDTO($validated);
 
@@ -101,6 +101,7 @@ class UserController extends Controller
     return view($this->view . 'edit', compact('user'));
   }
   
+
   public function update(Request $request, $id){
 
     $validatedData = $request->validate([
@@ -108,14 +109,14 @@ class UserController extends Controller
         'email' => 'required|email|unique:users,email,' . $id,
         // Optionally add password field
     ]);
+    $file = $request->file('profile_image');
+    // dd($file);
 
-    $this->userService->update($id, $validatedData);
+    $this->userService->updateUser($id, $validatedData, $file);
     
     return redirect()->route('users.edit', $id)->with('success', 'user updated successfully');
   }
   
-
-
-
+  
 }
 

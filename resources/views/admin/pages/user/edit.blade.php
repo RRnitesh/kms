@@ -20,7 +20,7 @@
                     <!-- Profile image -->
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
                         <div style="width: 200px; height: 200px; border: 1px solid #ccc; overflow: hidden; border-radius: 8px;">
-                            <img src="{{ asset('storage/' . $user->profile_image) }}" alt="Profile Image" 
+                            <img src="{{ $user->profile_image_url }}" alt="Profile Image" 
                                  style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                     </div>
@@ -42,7 +42,7 @@
                         <!-- You can add profile image upload option too -->
                         <div class="form-group">
                             <label for="profile_image">Change Profile Image</label>
-                            {{-- <input type="file" class="form-control-file" name="profile_image" id="profile_image"> --}}
+                            <input type="file" class="form-control-file" name="profile_image" id="profile_image">
                         </div>
                     </div>
                 </div>

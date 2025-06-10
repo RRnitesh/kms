@@ -4,6 +4,14 @@
 namespace App\Services\Implementation;
 
 use App\Repository\Interface\BaseRepositoryInterface;
+use App\Constant\Upload;
+
+use App\Models\Trash;
+
+
+
+use Illuminate\Support\Facades\Storage;
+
 
 class BaseService implements BaseRepositoryInterface{
 
@@ -46,6 +54,8 @@ class BaseService implements BaseRepositoryInterface{
     }
 
     public function update($id,array $data){
+      //if file and id exist
+      //$this->find($id)->profile_image
       return $this->repository->update($id, $data);
     }
 
@@ -54,6 +64,29 @@ class BaseService implements BaseRepositoryInterface{
         return $data->toArray();
       }
       return (array) $data;
+    }
+    
+    public function moveToTrash($id, $oldProfilePath)
+    {
+        
+       $trashDir = Upload::TRASH_FOLDER ;    
+       
+        $filename = pathinfo($oldProfilePath, PATHINFO_BASENAME);
+        $newPath = "{$trashDir}/{$filename}" ;
+
+        $oldProfilePath = Upload::USER_PROFILE_PATH . "/{$oldProfilePath}";
+
+        // dd($oldProfilePath, $newPath);
+
+        Storage::disk('public')->move($oldProfilePath, $newPath);
+
+        Trash::create([
+            'user_id' => $id,
+            'old_path' => $oldProfilePath,
+            'trashed_path' => $newPath,
+        ]);
+        
+
     }
     
 } 
