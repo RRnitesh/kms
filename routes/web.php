@@ -16,13 +16,15 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Route::get('/', [HomeHomeController::class, 'index'])->name('home.index');
+Route::get('/about', [HomeHomeController::class, 'about'])->name('home.about');
+
+
 Route::get('/login',[HomeHomeController::class, 'login'])->name('home.login');
 Route::get('/register', [HomeHomeController::class, 'register'])->name('home.register');
 
 
 
 Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
-
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');

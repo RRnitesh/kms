@@ -1,6 +1,6 @@
 @extends('admin.main.app')
 
-@section('content')
+
 
 @include('partials.alerts')
 
