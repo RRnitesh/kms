@@ -30,8 +30,8 @@
                 <div class="row">
                     <!-- Profile image -->
                     <div class="col-md-4 d-flex justify-content-center align-items-center">
-                        <div style="width: 200px; height: 200px; border: 1px solid #ccc; overflow: hidden; border-radius: 8px;">
-                            <img src="{{ $user->profile_image_url }}" alt="Profile Image" 
+                        <div style="width: 200px; height: 200px; border: 1px solid #ccc; overflow: hidden; border-radius: 50%;">
+                            <img id="profile_image_preview" src="{{ $user->profile_image_url }}" alt="Profile Image" 
                                  style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                     </div>
@@ -55,7 +55,7 @@
                         <!-- You can add profile image upload option too -->
                         <div class="form-group">
                             <label for="profile_image">Change Profile Image</label>
-                            <input type="file" class="form-control-file" name="profile_image" id="profile_image">
+                            <input type="file" class="form-control-file" name="profile_image" id="profile_image" accept="image/*" onchange="previewImage(this)">
                         </div>
                     </div>
                 </div>
@@ -87,5 +87,17 @@
 
     </div>
 </div>
-
+<script>
+    function previewImage(input) {
+        if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            
+            reader.onload = function(e) {
+                document.getElementById('profile_image_preview').src = e.target.result;
+            }
+            
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+</script>
 @endsection

@@ -1,10 +1,20 @@
 /* Change the main primary color to #662D91 */
 :root {
-  --primary: #662D91;
+  --primary-color: #662D91;
+  --primary-light: #8a4db3;
+  --primary-dark: #4d1c6b;
+  --text-light: #f8f9fa;
+}
+
+body {
+  background-color: var(--body-bg) !important;
+  background-image: linear-gradient(to bottom,
+      rgba(248, 249, 250, 0.9),
+      rgba(248, 249, 250, 0.9));
 }
 
 .bg-primary,
-.card-primary:not(.card-outline) > .card-header {
+.card-primary:not(.card-outline)>.card-header {
   background-color: #662D91 !important;
   color: #fff;
 }
@@ -14,108 +24,122 @@
   border-color: #662D91 !important;
 }
 
+button a {
+  gap: 8px;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+}
+
+
+.btn:hover {
+  background-color: transparent !important;
+  border: 1px solid var(--primary-color) !important;
+  color: var(--primary-color);
+}
+
+.btn:hover a {
+  color: var(--primary-color);
+}
+
+button a:hover {
+  color: var(--primary-color);
+}
+
 .btn-primary:hover {
   background-color: #57267B !important;
   border-color: #57267B !important;
 }
 
-.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link.active {
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active {
   background-color: #662D91 !important;
   color: #fff;
 }
 
-.sidebar-dark-primary .nav-sidebar > .nav-item > .nav-link:hover {
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link:hover {
   background-color: #57267B !important;
 }
-        :root {
-            --primary-color: #662D91;
-            --primary-light: #8a4db3;
-            --primary-dark: #4d1c6b;
-            --text-light: #f8f9fa;
-        }
- 
-        body {
-      background-color: var(--body-bg) !important;
-      background-image: linear-gradient(
-        to bottom,
-        rgba(248, 249, 250, 0.9),
-        rgba(248, 249, 250, 0.9)
-      );
-    }
-    
-        .navbar-custom {
-            background-color: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 0.8rem 1rem;
-        }
-        
-        .navbar-brand {
-            font-weight: 700;
-            color: var(--primary-color) !important;
-            font-size: 1.5rem;
-        }
-        
-        .navbar-brand span {
-            color: var(--primary-light);
-        }
-        
-        .nav-link {
-            color: #495057;
-            font-weight: 500;
-            padding: 0.5rem 1rem;
-            margin: 0 0.2rem;
-            border-radius: 0.3rem;
-            transition: all 0.3s ease;
-        }
-        
-        .nav-link:hover {
-            color: var(--primary-color);
-            background-color: rgba(102, 45, 145, 0.1);
-        }
-        
-        .nav-link.active {
-            color: var(--primary-color);
-            font-weight: 600;
-        }
-        
-        .btn-login {
-            background-color: var(--primary-color);
-            color: white;
-            border: none;
-            padding: 0.5rem 1.5rem;
-            border-radius: 0.3rem;
-            font-weight: 500;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-login:hover {
-            background-color: var(--primary-dark);
-            color: white;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(102, 45, 145, 0.2);
-        }
-        
-        .navbar-toggler {
-            border: none;
-            padding: 0.5rem;
-        }
-        
-        .navbar-toggler:focus {
-            box-shadow: 0 0 0 2px rgba(102, 45, 145, 0.3);
-        }
-        
-        @media (max-width: 991.98px) {
-            .navbar-collapse {
-                padding-top: 1rem;
-            }
-            
-            .nav-link {
-                margin: 0.2rem 0;
-                padding: 0.8rem 1rem;
-            }
-            
-            .btn-login {
-                width: 100%;
-                margin-top: 0.5rem;
-            }
-        }
+
+/* navbar styling */
+.navbar-collapse {
+  justify-content: right;
+  gap: 24px;
+}
+
+
+.navbar-custom {
+  background-color: white;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 0.8rem 1rem;
+}
+
+.navbar-brand {
+  font-weight: 700;
+  color: var(--primary-color) !important;
+  font-size: 1.5rem;
+}
+
+.navbar-brand span {
+  color: var(--primary-light);
+}
+
+.nav-link {
+  color: #495057;
+  font-weight: 500;
+  padding: 0.5rem 1rem;
+  margin: 0 0.2rem;
+  border-radius: 0.3rem;
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+  background-color: rgba(102, 45, 145, 0.1);
+}
+
+.nav-link.active {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.btn-register a{ 
+  color: white;
+}
+.btn-register {
+  background-color: var(--primary-color);
+  color: white;
+  padding: 0.5rem 1.5rem;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.btn-login a{
+  color: var(--primary-color);
+}
+.btn-register:hover {
+  background-color: var(--primary-dark);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(102, 45, 145, 0.2);
+}
+
+.navbar-toggler {
+  border: none;
+  padding: 0.5rem;
+}
+
+.navbar-toggler:focus {
+  box-shadow: 0 0 0 2px rgba(102, 45, 145, 0.3);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-collapse {
+    padding-top: 1rem;
+  }
+
+  .nav-link {
+    margin: 0.2rem 0;
+    padding: 0.8rem 1rem;
+  }
+}
