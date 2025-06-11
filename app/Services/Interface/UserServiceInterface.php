@@ -12,5 +12,7 @@ interface UserServiceInterface extends BaseServiceInterface
 
       public function updateUser($id, $request, ?UploadedFile $file = null);
 
-      // public function moveToTrash($id, $oldProfilePath);
+      public function deleteImage($id);
+
+      public function downloadImage($id);
 }

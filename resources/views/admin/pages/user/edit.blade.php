@@ -10,6 +10,17 @@
             <h3 class="card-title">Edit User</h3>
         </div>
 
+        <div class="buton">
+            <form action="{{ route('users.trashData')}}" method="GET">
+
+                <input type="hidden" value="{{ $user->id }}" name='user_id'>
+                 
+                <input type="hidden" value="1" name='data_id'>
+                <button type="submit">view trash</button>
+
+                </form>
+        </div>
+
         <!-- form start -->
         <form action="{{ route('users.update', $user->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
@@ -24,6 +35,8 @@
                                  style="width: 100%; height: 100%; object-fit: cover;">
                         </div>
                     </div>
+
+
 
                     <!-- Form fields -->
                     <div class="col-md-8">
@@ -48,11 +61,30 @@
                 </div>
             </div>
 
+
+
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Update</button>
                 <a href="{{ route('users.index') }}" class="btn btn-secondary">Cancel</a>
             </div>
         </form>
+    @if($user->profile_image)
+    <form action="{{ route('users.deleteImage', $user->id) }}" method="POST" style="margin-top: 10px;">
+        @csrf
+        @method('DELETE')
+        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete profile image?')">
+            <i class="fas fa-trash"></i> Delete Image
+        </button>
+    </form>
+@endif
+
+                    <a href="{{ route('users.download', $user->id) }}">
+                        <button type="submit" class="btn btn-primary ">download
+                        </button>
+                    </a>
+
+
+
     </div>
 </div>
 

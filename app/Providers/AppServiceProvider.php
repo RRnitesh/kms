@@ -2,11 +2,17 @@
 
 namespace App\Providers;
 
+use App\Repository\Implementation\TopicRepository;
 use App\Repository\Interface\UserRepositoryInterface;
 use App\Repository\Implementation\UserRepository;
+use App\Repository\Interface\TopicRepositoryInterface;
 use App\Services\Implementation\FileUpLoadService;
+use App\Services\Implementation\TopicService;
 use App\Services\Implementation\UserService;
+
 use App\Services\Interface\FileUpLoadServiceInterface;
+
+use App\Services\Interface\TopicServiceInterface;
 use App\Services\Interface\UserServiceInterface;
 
 use AuthService;
@@ -30,6 +36,8 @@ class AppServiceProvider extends ServiceProvider
           $this->app->bind(FileUpLoadServiceInterface::class, FileUpLoadService::class);
           
         //   $this->app->bind(AuthServiceInterface::class, AuthService::class);
+        $this->app->bind(TopicServiceInterface::class, TopicService::class);
+        $this->app->bind(TopicRepositoryInterface::class, TopicRepository::class);
     }
 
     public function boot(): void

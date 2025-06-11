@@ -3,17 +3,17 @@
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Home\HomeController as HomeHomeController;
+use App\Http\Controllers\TopicController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 
 // Route::controller(AdminHomeController::class)->group(function(){
-
-
 //     Route::get('/admin', 'index')->name('dashboard');
 
 //     // Route::get('/login', 'login')->name('auth.login');
 // });
+
 
 Route::get('/', [HomeHomeController::class, 'index'])->name('home.index');
 Route::get('/about', [HomeHomeController::class, 'about'])->name('home.about');
@@ -28,6 +28,25 @@ Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
 
 
 Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
+
+
+
+Route::prefix('topic')->controller(TopicController::class)->group(function(){
+
+    Route::get('/', 'index')->name('topic.index');
+
+    Route::get('/create', 'create')->name('topic.create');
+
+    Route::post('/create', 'store')->name('topic.store');
+
+    Route::get('edit/{id}', 'edit')->name('topic.edit');
+
+    Route::delete('delete/{id}', 'delete')->name('topic.destroy');
+
+    Route::get('/show/{id}', 'show')->name('topic.show');
+
+    // Route::get('/get-trash-data', 'getTrashDataByUserIdAndFileId')->name('topic.trashData');
+});
 
 
 Route::prefix('users')->controller(UserController::class)->group(function(){
@@ -49,10 +68,15 @@ Route::prefix('users')->controller(UserController::class)->group(function(){
     Route::put('/update/{id}', 'update')->name('users.update');
     
 
-    // // Delete
+    Route::delete('/delete-image/{id}', 'deleteImage')->name('users.deleteImage');
     Route::delete('/delete/{id}', 'delete')->name('users.delete');
 
-    // Route::get('/admin', 'admin');
+
+    Route::get('/download/{id}', 'downloadImage')->name('users.download');
+
+    Route::get('/get-trash-data', 'getTrashDataByUserIdAndFileId')->name('users.trashData');
+
+    Route::post('/store-topic', 'storeTopic')->name('users.topic');
 });
 
 

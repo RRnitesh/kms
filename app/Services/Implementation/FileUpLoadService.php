@@ -3,61 +3,85 @@
 namespace App\Services\Implementation;
 
 use App\Services\Interface\FileUpLoadServiceInterface;
-use Symfony\Component\HttpFoundation\StreamedResponse;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use App\Constant\Upload;
+use App\Models\Trash;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Contracts\Cache\Store;
+use Illuminate\Http\Response;
 
-class FileUpLoadService implements FileUpLoadServiceInterface{
-    public function uploadImage(UploadedFile $file, string $path, string $disk = 'public'): string
-    {
-        // dd($file, $path);
-        // fcheck file - exist ?
-        // return false
-        // true ? ? path wise file exit xa kix aina file path ? 
-        // if yes ?? pruarno trash gayo ;naya create vayo ; 
+class FileUpLoadService implements FileUpLoadServiceInterface
+{
+    public function uploadFile(
+        UploadedFile $file,
+        string $path,
+        string $disk = 'public',
+        ?string $oldFilename = null,
+        ?int $ownerId = null,
+        ?string $context = null
+
+    ): string {
+        if ($oldFilename) {
+            $this->moveToTrash($oldFilename, $path, $disk, $ownerId, $context);
+        }
+
         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-
-
-
         $extension = $file->getClientOriginalExtension();
-        
         $filename = $originalName . '_' . now()->timestamp . '.' . $extension;
-
         $file->storeAs($path, $filename, $disk);
-        
-        // this is saved in the database.
+
         return $filename;
     }
 
-    // public function view(string $path, string $disk = 'public'): string
-    // {
-    //     if ($disk === 'public') {
-    //         return asset('storage/' . ltrim($path, '/'));
-    //     }
+    public function deleteAndTrash(
+        string $filename,
+        string $path,
+        string $disk = 'public',
+        ?int $ownerId = null,
+        ?string $context = null
+    ): bool {
+        $this->moveToTrash($filename, $path, $disk, $ownerId, $context);
+        return true;
+    }
 
-    //     // For S3 or other disks that support url()
-    //     $driver = Storage::disk($disk);
-    //     if (method_exists($driver, 'url')) {
-    //         return $driver->url($path);
-    //     }
-    //     // Fallback
-    //     return '';
-    // }
+    protected function moveToTrash(
+        $oldFilename,
+        $originalPath,
+        $disk,
+        ?int $ownerId = null,
+        ?string $context = null
+    ): void {
+        $trashDir = Upload::TRASH_FOLDER;
+        $oldPath = $originalPath . '/' . $oldFilename;
+        $newPath = $trashDir . '/'. '$id' . $oldFilename;
+
+        Storage::disk($disk)->move($oldPath, $newPath);
 
 
-    //     public function download(string $path, string $disk = 'public'): StreamedResponse
-    //     {
-    //         $fullPath = Storage::disk($disk)->path($path);
 
-    //         if (!file_exists($fullPath)) {
-    //             abort(404, 'File not found.');
-    //         }
+        Trash::create([
+            'user_id' => $ownerId, 
+            'data_id' => 1,
+            'old_path' => $oldPath,
+            'trashed_path' => $newPath,
+        ]);
+    }
 
-    //         return Storage::disk($disk)->download($path);
-    //     }
+    public function downloadFile(
+        string $filename,
+        string $path,
+        string $disk = 'public'
+    ) {
+        $filePath = $path . '/' . $filename;
 
-    // public function delete(string $path, string $disk = 'public'): bool
-    // {
-    //     return Storage::disk($disk)->delete($path);
-    // }
+        if (!Storage::disk($disk)->exists($filePath)) {
+            abort(404, 'File not found');
+        }
+
+        $absoultePath = Storage::disk($disk)->path($filePath);
+
+         return response()->download($absoultePath, $filename);
+         
+    }
 }
