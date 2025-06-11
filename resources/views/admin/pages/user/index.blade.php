@@ -22,21 +22,21 @@
             <table id="usersTable" class="table table-bordered table-striped">
               <thead>
                 <tr>
+                  <th>Image</th>
                   <th>Full Name</th>
                   <th>Email</th>
-                  <th>Image</th>
                   <th>Action</th>                
                 </tr>
               </thead>
               <tbody>
                 @foreach($users as $user)
                 <tr>
-                  <td>{{ $user->name }}</td>
-                  <td>{{ $user->email }}</td>
                   <td>
                     <img src="{{ $user->profile_image_url }}" alt="Profile Image"
-                        style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
+                        style="width: 50px; height: 50px; object-fit: cover; border-radius: 50%;border: 2px solid #fff;">
                   </td>
+                  <td>{{ $user->name }}</td>
+                  <td>{{ $user->email }}</td>
                   <td>
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-sm btn-warning">
                       <i class="fas fa-edit"></i> Edit

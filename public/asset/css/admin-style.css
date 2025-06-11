@@ -1,0 +1,42 @@
+:root {
+    --primary-color: #662D91;
+    --primary-light: #8a4db3;
+    --primary-dark: #4d1c6b;
+    --text-light: #f8f9fa;
+  }
+
+.bg-primary{
+    background-color: var(--primary-color) !important;
+}
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active{
+    background-color: var(--primary-color) !important;
+}
+.page-item.active .page-link{
+    background-color: var(--primary-color) !important;
+    border-color: var(--primary-color) !important;
+}
+.btn-success, .alert-success{
+    background-color: #91662D;
+    border-color: #91662D;
+}
+.btn-success:hover{ 
+    background-color: transparent;
+    border-color: #fff;
+}
+.card-header::after{
+    display: none;
+}
+.card-primary:not(.card-outline)>.card-header{
+    background-color: var(--primary-color) !important;
+}
+.btn-primary {
+    background-color: #662D91 !important;
+    border-color: #662D91 !important;
+  }
+#usersTable tr th:first-child, #usersTable tr td:first-child{
+    text-align: center;
+    width: 100px;
+}
+#usersTable tr th, #usersTable tr td{
+    align-content: center;
+}

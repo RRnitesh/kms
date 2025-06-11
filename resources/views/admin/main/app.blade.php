@@ -21,7 +21,7 @@
 
   
   <link rel="stylesheet" href="{{ asset('asset/css/custome.css')}}">
-  <link rel="stylesheet" href="{{ asset('asset/css/style.css')}}">
+  <link rel="stylesheet" href="{{ asset('asset/css/admin-style.css')}}">
   
   <script src="{{ asset('admin/plugins/jquery/jquery.min.js') }}"></script>
 
