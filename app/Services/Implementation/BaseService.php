@@ -67,6 +67,4 @@ class BaseService implements BaseRepositoryInterface{
       return (array) $data;
     }
     
-
-    
 } 

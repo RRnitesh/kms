@@ -25,14 +25,7 @@
               {{-- User Selection --}}
               <div class="form-group">
                 <label for="user_id">User</label>
-                <select name="user_id" id="user_id" class="form-control">
-                  <option value="">-- Select User --</option>
-                  @foreach($users as $user)
-                    <option value="{{ $user->id }}" {{ $topic->user_id == $user->id ? 'selected' : '' }}>
-                      {{ $user->name }}
-                    </option>
-                  @endforeach
-                </select>
+
               </div>
 
               {{-- Topic Name --}}

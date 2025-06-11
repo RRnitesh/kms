@@ -36,8 +36,8 @@ class TopicController extends Controller
 
     public function edit($id)
     {
-        $data['topic'] = Topic::find($id);
-        return view($this->view . 'edit', ['data' => $data]);
+        $topic = $this->topicService->find($id);
+        return view($this->view . 'edit',compact($topic));
     }
 
 
@@ -45,9 +45,9 @@ class TopicController extends Controller
     {
         $data = $request->validated();
 
-        $topicData = new TopicDTO($data);
+        $topicDTO = new TopicDTO($data);
 
-        $this->topicService->create($data);
+        $this->topicService->create($topicDTO);
 
         return redirect()->route('topic.index')
         ->with('success', 'डेटा सफलतापूर्वक अपलोड गरियो।');

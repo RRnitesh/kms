@@ -19,7 +19,7 @@
 </head>
 <body class="hold-transition layout-top-nav">
   <div class="wrapper">
-    @include('partials.navBar')
+
 
     <div class="content-wrapper">
       <div class="content">
