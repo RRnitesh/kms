@@ -19,7 +19,6 @@
                         <table id="topicsTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
-                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Sort Order</th>
                                     <th>Status</th>
@@ -29,10 +28,6 @@
                             <tbody>
                                 @foreach ($topics as $topic)
                                     <tr>
-                                        <td>
-                                            <img src="{{ $topic->user->img ?? 'default.png' }}" alt="Profile Image"
-                                                style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px;">
-                                        </td>
                                         <td>{{ $topic->name }}</td>
                                         <td>{{ $topic->sort_order }}</td>
                                         <td>
