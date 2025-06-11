@@ -5,9 +5,15 @@ namespace App\Http\Controllers;
 use App\Constant\Upload;
 use App\DTO\UserDTO\UserSaveDTO;
 use App\Http\Requests\User\StoreUserRequest;
+use App\Models\Topic;
 use App\Services\Interface\UserServiceInterface;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Container\Attributes\DB;
+use Illuminate\Support\Facades\DB as FacadesDB;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -107,7 +113,8 @@ class UserController extends Controller
     $validatedData = $request->validate([
         'name' => 'required|string|max:255',
         'email' => 'required|email|unique:users,email,' . $id,
-        // Optionally add password field
+        //email is checked at the database here only if it will match other things
+        
     ]);
     $file = $request->file('profile_image');
     // dd($file);
@@ -117,6 +124,77 @@ class UserController extends Controller
     return redirect()->route('users.edit', $id)->with('success', 'user updated successfully');
   }
   
-  
+  public function deleteImage($id)
+  {
+    $this->userService->deleteImage($id);
+    return redirect()->back()->with('success','iamge deleted successfully');
+  }
+
+  public function downloadImage($id):BinaryFileResponse
+  {
+   return $this->userService->downloadImage($id);
+  }
+ 
+ public function getTrashDataByUserIdAndFileId(Request $request)
+{
+    // Validate incoming request parameters!
+    $request->validate([
+        'user_id' => ['required', 'integer', 'exists:users,id'],
+        'data_id' => ['required', 'integer'],
+    ]);
+
+    $userID = $request->user_id;
+    $dataID = $request->data_id;
+
+    // Using the query builder:
+    $trashItems = FacadesDB::table('trashes')
+        ->where('user_id', $userID)
+        ->where('data_id', $dataID)
+        ->select('trashes.*')
+        ->get();
+
+    dd($trashItems);
+}
+
+
+public function storeTopic(Request $request)
+{
+    // Validate the request
+    $request->validate([
+        'img' => 'nullable|image|max:2048',
+        // add more validations as needed
+    ]);
+
+    $path = null;
+
+    // If there's an uploaded image, store it
+    if ($request->hasFile('img')) {
+        $file = $request->file('img');
+        $filename = Str::random(20) . '.' . $file->getClientOriginalExtension();
+
+        // Save in: storage/app/public/attachments/topic/{topic_id}/image.jpg
+        $path = $file->storeAs("attachments/topic/temp", $filename, 'public'); // temporary, we’ll move later
+    }
+
+    // Create the topic (now that we know everything)
+    $topic = Topic::create([
+        'img'   => $path,  // optional if image exists
+        // add other fields here
+    ]);
+
+    // Optionally move the image to a folder named after the topic ID
+    if ($path) {
+        $newPath = "attachments/topic/{$topic->id}/" . basename($path);
+        Storage::disk('public')->move($path, $newPath);
+        $topic->img = $newPath;
+        $topic->save();
+    }
+
+    return redirect()
+        ->route('users.index')  // or your actual topic listing route
+        ->with('success', 'Topic created successfully!');
+}
+
+
 }
 

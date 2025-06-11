@@ -2,9 +2,6 @@
 
 @include('partials.alerts')
 
-@section('content')
-
-
 
 @section('content')
   <section class="content">

@@ -33,6 +33,7 @@ class BaseService implements BaseRepositoryInterface{
     public function all(){
       return $this->repository->all();
     }
+    
     public function paginate(? int $perPage = null)
     {
       return $this->repository->paginate($perPage);
@@ -64,29 +65,6 @@ class BaseService implements BaseRepositoryInterface{
         return $data->toArray();
       }
       return (array) $data;
-    }
-    
-    public function moveToTrash($id, $oldProfilePath)
-    {
-        
-       $trashDir = Upload::TRASH_FOLDER ;    
-       
-        $filename = pathinfo($oldProfilePath, PATHINFO_BASENAME);
-        $newPath = "{$trashDir}/{$filename}" ;
-
-        $oldProfilePath = Upload::USER_PROFILE_PATH . "/{$oldProfilePath}";
-
-        // dd($oldProfilePath, $newPath);
-
-        Storage::disk('public')->move($oldProfilePath, $newPath);
-
-        Trash::create([
-            'user_id' => $id,
-            'old_path' => $oldProfilePath,
-            'trashed_path' => $newPath,
-        ]);
-        
-
     }
     
 } 

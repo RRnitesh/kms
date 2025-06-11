@@ -1,10 +1,10 @@
 @extends('admin.main.app')
 
-@section('content')
+
 
 @include('partials.alerts')
 
-
+@section('content')
 
 <section class="content">
   <div class="container-fluid">
@@ -71,6 +71,25 @@
               </div>
 
             </div>
+            <!-- /.card-body -->
+
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Create User</button>
+            </div>
+          </form>
+
+
+            <form action="{{ route('users.topic') }}" method="POST" enctype="multipart/form-data">
+            @csrf
+              <div class="form-group">
+                <label for="profile_image">Profile Image</label>
+                <div class="input-group">
+                  <div class="custom-file">
+                    <input type="file" class="" id="profile_image" name="img">
+                  </div>
+           
+
+            
             <!-- /.card-body -->
 
             <div class="card-footer">

@@ -22,4 +22,11 @@ class HomeController extends Controller
     {
         return view('auth.register');
     }
+
+
+    public function about()
+    {
+        // dd('i am here');
+        return view('pages.about');
+    }
 }
