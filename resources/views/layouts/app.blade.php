@@ -19,11 +19,11 @@
 </head>
 <body class="hold-transition layout-top-nav">
   <div class="wrapper">
-    {{-- @include('partials.navBar') --}}
+    @include('partials.navBar') 
 
     <div class="content-wrapper">
       <div class="content">
-        <div class="container">
+        <div class="">
           @include('partials.alerts')
           @yield('content')
         </div>
