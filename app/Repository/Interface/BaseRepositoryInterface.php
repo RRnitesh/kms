@@ -2,13 +2,14 @@
 
 namespace App\Repository\Interface;
 
+use Illuminate\Support\Facades\Log;
+
 
 interface BaseRepositoryInterface{
 
   public function all();
-  // allow optional per page override based on different model
   public function paginate(? int $perPage = null);
-
+  public function with($relations);
   public function getModel();
   public function find($id);
   public function create($data);  

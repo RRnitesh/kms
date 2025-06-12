@@ -9,7 +9,12 @@ class Topic extends Model
     protected $fillable = [
         'user_id',
         'name',
+        'status',
         'sort_order',
-        'status'
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

@@ -3,5 +3,5 @@
 
 return [
   'default' => 10,
-  'users' => 1,
+  'users' => 10,
 ];

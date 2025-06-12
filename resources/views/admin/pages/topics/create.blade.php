@@ -19,15 +19,7 @@
                             @csrf
 
                             <div class="card-body">
-                                {{-- User ID --}}
-                                <div class="form-group">
-                                    <label for="user_id">User</label>
-                                    <input type="text" name="user_id" value="58"
-                                        class="form-control @error('user_id') is-invalid @enderror">
-                                    @error('user_id')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
+
 
                                 {{-- Topic Name --}}
                                 <div class="form-group">
@@ -40,16 +32,6 @@
                                     @enderror
                                 </div>
 
-                                {{-- Sort Order --}}
-                                <div class="form-group">
-                                    <label for="sort_order">Sort Order</label>
-                                    <input type="number" name="sort_order"
-                                        class="form-control @error('sort_order') is-invalid @enderror"
-                                        placeholder="e.g., 1, 2, 3" value="{{ old('sort_order') }}">
-                                    @error('sort_order')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
 
                                 {{-- Status --}}
                                 <div class="form-group">

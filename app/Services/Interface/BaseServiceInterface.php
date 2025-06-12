@@ -2,10 +2,23 @@
 
 namespace App\Services\Interface;
 
-use App\Repository\Interface\BaseRepositoryInterface;
 
-interface BaseServiceInterface extends BaseRepositoryInterface{
+interface BaseServiceInterface
+{
+    public function getAll();
 
+    public function getPaginated(?int $perPage = null);
+
+    public function getById($id);
+
+    public function create(array $data);
+
+    public function update($id, array $data);
+
+    public function delete($id);
+
+    public function getWithRelations($id, array $relations);
 }
+
 
 

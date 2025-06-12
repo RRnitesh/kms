@@ -1,16 +1,22 @@
 @extends('admin.main.app')
 
-@include('partials.alerts')
+
+
 
 
 @section('content')
+@include('partials.alerts')
+
+
 <section class="content">
     <div class="container-fluid">
         <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary d-flex justify-content-between align-items-center">
+
                         <h3 class="card-title mb-0">Topic List</h3>
+                        <a href="{{ route('topic.active') }}" class="btn btn-success btn-sm">get all active topic</a>
                         <a href="{{ route('topic.create') }}" class="btn btn-success btn-sm">
                             <i class="fas fa-plus"></i> Create New Topic
                         </a>
@@ -69,7 +75,7 @@
 @section('script')
     <script>
         $(document).ready(function() {
-            $('#usersTable').DataTable({
+            $('#topicsTable').DataTable({
                 responsive: true,
                 lengthChange: true,
                 paginate: true,
@@ -79,3 +85,4 @@
         });
     </script>
 @endsection
+

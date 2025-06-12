@@ -45,6 +45,10 @@ Route::prefix('topic')->controller(TopicController::class)->group(function(){
 
     Route::get('/show/{id}', 'show')->name('topic.show');
 
+    Route::put('/update/{id}', 'update')->name('topic.update');
+
+    Route::get('/active-topic', 'activeTopic')->name('topic.active');
+
     // Route::get('/get-trash-data', 'getTrashDataByUserIdAndFileId')->name('topic.trashData');
 });
 

@@ -4,16 +4,26 @@ namespace App\Repository\Implementation;
 
 use App\Repository\Interface\BaseRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Log;
+
 
 
 class BaseRepository implements BaseRepositoryInterface {
 
   protected  $model;
+  protected array $with = []; // for join 
 
-  // this model will come from the specific repo ; 
-  // user repo will call give model User
+  // this model will come from the child classes that inherit the base repo 
+  // userrepo, topicrepo will inject their model here.
   public function __construct( $model) {
     $this->model = $model;
+  }
+
+  // service provide multiple model (['']) 
+  public function with($relations)
+  {
+    $this->with = $relations;
+    return $this; // this allows chaining meaning user, category, model ...
   }
 
   public  function getModel(){
@@ -24,18 +34,20 @@ class BaseRepository implements BaseRepositoryInterface {
     return $this->model->all();
   }
   
-
   public function find($id){
-    return $this->model->findOrFail($id);
+    $result =  $this->model->with($this->with)->findOrFail($id);
+    $this->with = [];
+    return $result;
   }
 
   // keep the pagination here only
   public function paginate(?int $perPage = null){
     $perPage = $perPage ?? config('pagination.default');
-    return $this->model->paginate($perPage);
+    return $this->model->with($this->with)->paginate($perPage);
   }
 
   public function create($data){
+
     return $this->model->create($data);
   }
 

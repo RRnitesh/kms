@@ -23,9 +23,7 @@ class StoreTopicRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
-            'sort_order' => 'required|integer|min:0',
             'status' => 'required|in:0,1',
         ];
     }
@@ -39,10 +37,6 @@ class StoreTopicRequest extends FormRequest
             'name.required' => 'कृपया शीर्षकको नाम लेख्नुहोस्।',
             'name.string' => 'नाम मान्य स्ट्रिङ हुनुपर्छ।',
             'name.max' => 'नाम २५५ वर्णभन्दा बढी हुन सक्दैन।',
-
-            'sort_order.required' => 'कृपया क्रमाङ्क लेख्नुहोस्।',
-            'sort_order.integer' => 'क्रमाङ्क संख्या हुनुपर्छ।',
-            'sort_order.min' => 'क्रमाङ्क शून्य वा त्यसभन्दा बढी हुनुपर्छ।',
 
             'status.required' => 'कृपया स्थिति चयन गर्नुहोस्।',
             'status.in' => 'स्थिति मान्य हुनुपर्छ (० वा १)।',

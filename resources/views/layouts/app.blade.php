@@ -25,7 +25,6 @@
     <div class="content-wrapper">
       <div class="content">
         <div class="">
-          @include('partials.alerts')
           @yield('content')
         </div>
       </div>

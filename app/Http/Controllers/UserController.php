@@ -40,28 +40,17 @@ class UserController extends Controller
 
   // now we can call all the UserServices method by $this->userServicep;
   public function index(){
-
-    //perpage = 
-    // $data['users'] = $this->userService->paginate();
-    $data['users'] = $this->userService->all();
-    // dd($data);
-    // return view($this->view . 'index', ['data' => $data]);
+    $data['users'] = $this->userService->getPaginated();
     return view('admin.pages.user.index', $data);
   }
 
-  // public function create(){
-  //   $data['users'] = $this->userService->create(datra);
-  //   return view('users.index', ['data' => $data]);
-  // }
 
   public function show($id){
-    $user = $this->userService->find($id);
+    $user = $this->userService->getById($id);
     return view('users.show', compact('user'));
   }
 
-  // public function create(){
-  //   return view('users.create');
-  // }
+
   public function create(){
     return view('admin.pages.user.create');
   }
@@ -101,8 +90,7 @@ class UserController extends Controller
 
 
   public function edit($id){
-
-    $user = $this->userService->find($id);
+    $user = $this->userService->getById($id);
 
     return view($this->view . 'edit', compact('user'));
   }

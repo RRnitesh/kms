@@ -6,72 +6,45 @@ namespace App\Services\Implementation;
 use App\Constant\Upload;
 use App\DTO\UserDTO\UserResponseDTO;
 use App\DTO\UserDTO\UserSaveDTO;
-use App\Models\Trash;
 use App\Repository\Interface\UserRepositoryInterface;
-use Faker\Guesser\Name;
-
 use App\Services\Implementation\BaseService;
 use App\Services\Interface\FileUpLoadServiceInterface;
 use App\Services\Interface\UserServiceInterface;
 use Illuminate\Http\UploadedFile;
-use Symfony\Component\CssSelector\Node\FunctionNode;
-use App\Models\User;
-use Illuminate\Support\Facades\Storage;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\Facades\DB;
+
 
 class UserService extends BaseService implements UserServiceInterface
 {
-    // since we inherited the base service all the 
-    // public method are to accessed by the UserService
-    //  $userRepository
+    // since we inherit base service; we have(user service) have all method of base service
     protected UserRepositoryInterface $userRepository;
     protected FileUpLoadServiceInterface $fileService;
+
     public function __construct(
         UserRepositoryInterface $userRepository,
         FileUpLoadServiceInterface $fileService
     ) {
-        // but here we are passing the user repo interface
-        // so that only the interface defined method can be called
-        // or used.
-        // parent::__construct($userRepository);
+        //  pass userRepo to the Base Serivce.
+        //  we have crud
         parent::__construct($userRepository);
+
+        // storing the repo for seperate work
         $this->userRepository = $userRepository;
         $this->fileService = $fileService;
 
-        // $this->userRepository = $userRepository;
     }
-    // if we need to  implement additional method of the UserRepoInterface 
-    // we do here not in the baseservice.
 
     // here we are overriding the baseservice method 
-    public function find($id)
+    public function getAll()
     {
-        // doing this will call the baseservice find from where userRepoInterface 
-        // works on find
-        $user = parent::find($id);
-
-        // now we override the method find of the class and
-        // so that we add aditional conent on it;
+        $user = parent::getAll();
         return $user ? UserResponseDTO::fromModel($user) : null;
     }
 
-    // public function createFromDTO(UserSaveDTO $dto)
-    // {
-    //     return $this->userRepository->createFromDTO($dto);
-    // }
-
-    // public function all(){
-    //     $users = parent::all();
-    //     return $users ? UserResponseDTO::fromCollection($users) : null ;
-    // }
     public function paginate(?int $perPage = null)
     {
         $perPage = config('pagination.users');
-        $paginator = parent::paginate($perPage);
-        // return $users ? UserResponseDTO::fromCollection($users) : null;
-
-        // Use through() to transform each item to a DTO, but keep paginator object
+        $paginator = parent::getPaginated($perPage);
         return $paginator->through(fn($user) => UserResponseDTO::fromModel($user));
     }
 
