@@ -4,6 +4,7 @@ namespace App\Repository\Implementation;
 
 use App\Models\Topic;
 use App\Repository\Interface\TopicRepositoryInterface;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 

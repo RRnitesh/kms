@@ -42,10 +42,11 @@ class TopicResponseDTO
             $topic->name,
             $topic->sort_order,
             $topic->status,
-
             $topic->user->email,
         );
     }
+
+    
 
     // Converts a collection of topics to an array of DTOs
     public static function fromCollection(iterable $topics): array
@@ -55,5 +56,7 @@ class TopicResponseDTO
             is_array($topics) ? $topics : $topics->all()
         );
     }
+
+
 
 }

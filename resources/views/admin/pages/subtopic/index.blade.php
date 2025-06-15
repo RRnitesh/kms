@@ -1,6 +1,5 @@
 @extends('admin.main.app')
 
-
 @section('content')
 @include('partials.alerts')
 
@@ -10,17 +9,16 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header bg-primary d-flex justify-content-between align-items-center">
-
-                        <h3 class="card-title mb-0">Topic List</h3>
-                        <a href="{{ route('topic.active') }}" class="btn btn-success btn-sm">get all active topic</a>
-                        <a href="{{ route('topic.create') }}" class="btn btn-success btn-sm">
-                            <i class="fas fa-plus"></i> Create New Topic
+                        <h3 class="card-title mb-0">SubTopic List</h3>
+                        <a href="{{ route('subtopic.create') }}" class="btn btn-success btn-sm">
+                            <i class="fas fa-plus"></i> Create New SubTopic
                         </a>
                     </div>
                     <div class="card-body">
-                        <table id="topicsTable" class="table table-bordered table-striped">
+                        <table id="subTopicsTable" class="table table-bordered table-striped">
                             <thead>
                                 <tr>
+                                    <th>Topic</th>
                                     <th>Name</th>
                                     <th>Sort Order</th>
                                     <th>Status</th>
@@ -28,26 +26,27 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($topics as $topic)
+                                @foreach ($subTopics as $subTopic)
                                     <tr>
-                                        <td>{{ $topic->name }}</td>
-                                        <td>{{ $topic->sort_order }}</td>
+                                        <td>{{ $subTopic->topic->name ?? 'N/A' }}</td>
+                                        <td>{{ $subTopic->name }}</td>
+                                        <td>{{ $subTopic->sort_order }}</td>
                                         <td>
-                                            @if ($topic->status)
+                                            @if ($subTopic->status)
                                                 <span class="badge badge-success">Active</span>
                                             @else
                                                 <span class="badge badge-secondary">Inactive</span>
                                             @endif
                                         </td>
                                         <td class="d-flex">
-                                            <a href="{{ route('topic.show', $topic->id) }}" class="btn btn-info btn-sm mr-1">
+                                            <a href="" class="btn btn-info btn-sm mr-1">
                                                 <i class="fas fa-eye"></i> View
                                             </a>
-                                            <a href="{{ route('topic.edit', $topic->id) }}" class="btn btn-warning btn-sm mr-1">
+                                            <a href="{{ route('subtopic.edit', $subTopic->id) }}" class="btn btn-warning btn-sm mr-1">
                                                 <i class="fas fa-edit"></i> Edit
                                             </a>
-                                            <form action="{{ route('topic.destroy', $topic->id) }}" method="POST"
-                                                onsubmit="return confirm('Are you sure you want to delete this topic?');">
+                                            <form action="{{ route('subtopic.destroy', $subTopic->id) }}" method="POST"
+                                                onsubmit="return confirm('Are you sure you want to delete this subtopic?');">
                                                 @csrf
                                                 @method('DELETE')
                                                 <button type="submit" class="btn btn-danger btn-sm">
@@ -67,18 +66,16 @@
 </section>
 @endsection
 
-
 @section('script')
-    <script>
-        $(document).ready(function() {
-            $('#topicsTable').DataTable({
-                responsive: true,
-                lengthChange: true,
-                paginate: true,
-                autoWidth: false,
-                buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
-            }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-        });
-    </script>
+<script>
+    $(document).ready(function () {
+        $('#subTopicsTable').DataTable({
+            responsive: true,
+            lengthChange: true,
+            paginate: true,
+            autoWidth: false,
+            buttons: ["copy", "csv", "excel", "pdf", "print", "colvis"]
+        }).buttons().container().appendTo('#subTopicsTable_wrapper .col-md-6:eq(0)');
+    });
+</script>
 @endsection
-

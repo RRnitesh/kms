@@ -19,12 +19,12 @@
                 </ul>
                 <div class="d-flex" style="gap: 8px;">
                     <button class="btn btn-login">
-                        <a href="{{ route('home.login')}} ">
+                        <a href="{{ route('login') }} ">
                             <i class="fas fa-sign-in-alt me-2"></i>Login</a>
                     </button>
 
                     <button class="btn btn-register">
-                        <a href="{{ route('home.register')}} ">
+                        <a href="{{ route('home.register') }} ">
                             <i class="fas fa-sign-in-alt me-2"></i>Register</a>
                     </button> 
                 </div>

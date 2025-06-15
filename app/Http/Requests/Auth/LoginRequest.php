@@ -13,24 +13,20 @@ class LoginRequest extends FormRequest
     {
         return true;
     }
-
-    /**
-     * Get the validation rules that apply to the request.
-     *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array<mixed>|string>
-     */
+    // 
     public function rules(): array
     {
+        // , 'exists:users,email'
         return [
-            'username' => ['required', 'email', 'exists:users,email'],
-            'password' => ['required', 'string'],//specail chracter 
+            'email' => ['required', 'email'],
+            'password' => ['required', 'string'],
         ];
     }
 
     public function messages(): array
     {
         return [
-            'username.required' => 'Username or email is required.',
+            'email.required' => 'Username or email is required.',
             'password.required' => 'Password is required.',
         ];
     }

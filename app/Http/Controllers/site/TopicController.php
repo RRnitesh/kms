@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\site;
 
 use App\DTO\TopicDTO\TopicDTO;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\Topic\StoreTopicRequest;
 use App\Http\Requests\Topic\UpdateTopicRequest;
 use App\Services\Interface\TopicServiceInterface;
+use Illuminate\Http\Request;
 
 
 class TopicController extends Controller
@@ -79,5 +81,19 @@ class TopicController extends Controller
     }
 
 
+    public function getSubtopic(Request $request)
+    {
+        $subtopics = $this->topicService->getActiveSubTopicsByTopicId($request->topic_id);
 
+        return response()->json($subtopics);
+    }
+
+    //     public function getSubtopic($id)
+    // {
+    //     $subtopics = $this->topicService->getActiveSubTopicsByTopicId($id);
+
+    //     return response()->json($subtopics);
+    // }
+
+    
 }

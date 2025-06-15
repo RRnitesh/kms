@@ -1,6 +1,9 @@
 @extends('admin.main.app')
 
 
+@section('styles')
+  <link rel="stylesheet" href="{{}}">
+@endsection
 
 @include('partials.alerts')
 

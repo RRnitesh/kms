@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Home;
+namespace App\Http\Controllers\site;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+
 
 class HomeController extends Controller
 {
@@ -12,7 +12,11 @@ class HomeController extends Controller
     {
         return view($this->view . 'index');
     }
-
+    public function about()
+    {
+        // dd('i am here');
+        return view('pages.about');
+    }
     public function login()
     {
         return view('auth.login');
@@ -22,11 +26,5 @@ class HomeController extends Controller
     {
         return view('auth.register');
     }
-
-
-    public function about()
-    {
-        // dd('i am here');
-        return view('pages.about');
-    }
+    
 }

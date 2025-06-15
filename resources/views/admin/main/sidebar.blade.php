@@ -48,9 +48,8 @@
                       </a>
                   </li>
 
-                  <li class="nav-header">User Management</li>
 
-                  <li class="nav-item ">
+                  {{-- <li class="nav-item ">
                       <a href="{{ route('users.index') }}" class="nav-link">
                           <i class="nav-icon fas fa-users"></i>
                           <p>
@@ -67,7 +66,63 @@
                           </p>
                       </a>
                   </li>
+                  <li class="nav-item ">
+                      <a href="{{ route('subtopic.index') }}" class="nav-link">
+                          <i class="nav-icon fas fa-comments"></i>
+                          <p>
+                              Sub Topics
+                          </p>
+                      </a>
+                  </li>
+                  <li class="nav-item ">
+                      <a href="{{ route('knowledge.create') }}" class="nav-link">
+                          <i class="nav-icon fas fa-comments"></i>
+                          <p>
+                              knowledge create
+                          </p>
+                      </a>
+                  </li> --}}
+                  @auth
+                      {{-- Users menu: needs 'user.read' permission --}}
+                      @if (auth()->user()->hasPermission('user.read'))
+                          <li class="nav-item">
+                              <a href="{{ route('users.index') }}" class="nav-link">
+                                  <i class="nav-icon fas fa-users"></i>
+                                  <p>Users</p>
+                              </a>
+                          </li>
+                      @endif
 
+                      {{-- Topics menu: needs 'topic.read' permission --}}
+                      @if (auth()->user()->hasPermission('topic.read'))
+                          <li class="nav-item">
+                              <a href="{{ route('topic.index') }}" class="nav-link">
+                                  <i class="nav-icon fas fa-comments"></i>
+                                  <p>Topics</p>
+                              </a>
+                          </li>
+                      @endif
+
+                      {{-- Subtopics menu: needs 'subtopic.read' permission --}}
+                      @if (auth()->user()->hasPermission('subtopic.read'))
+                          <li class="nav-item">
+                              <a href="{{ route('subtopic.index') }}" class="nav-link">
+                                  <i class="nav-icon fas fa-comments"></i>
+                                  <p>Sub Topics</p>
+                              </a>
+                          </li>
+                      @endif
+
+                      {{-- Knowledge create menu: let's assume 'content.create.any' or 'content.create.own' permission --}}
+                      @if (auth()->user()->hasPermission('content.create.any') || auth()->user()->hasPermission('content.create.own'))
+                          <li class="nav-item">
+                              <a href="{{ route('knowledge.create') }}" class="nav-link">
+                                  <i class="nav-icon fas fa-comments"></i>
+                                  <p>Knowledge Create</p>
+                              </a>
+                          </li>
+                      @endif
+                  @endauth
 
               </ul>
           </nav>

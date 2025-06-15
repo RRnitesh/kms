@@ -1,37 +1,63 @@
 <?php
 
-use App\Http\Controllers\Admin\HomeController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Home\HomeController as HomeHomeController;
-use App\Http\Controllers\TopicController;
-use App\Http\Controllers\UserController;
+use App\Http\Controllers\Admin\AdminController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Knowledge\KnowledgeController;
+use App\Http\Controllers\site\HomeController;
+use App\Http\Controllers\site\SubTopicController;
+use App\Http\Controllers\site\TopicController;
+use App\Http\Controllers\site\UserController;
 use Illuminate\Support\Facades\Route;
 
 
-// Route::controller(AdminHomeController::class)->group(function(){
-//     Route::get('/admin', 'index')->name('dashboard');
+Route::get('/session-data', function () {
+    return session()->all();
+});
 
-//     // Route::get('/login', 'login')->name('auth.login');
+Route::get('/', [HomeController::class, 'index'])->name('home.index');
+Route::get('/home/login',[HomeController::class, 'login'])->name('login');
+
+
+Route::prefix('home')->name('home.') ->controller(HomeController::class)->group(function () {     
+        Route::get('/about', 'about')->name('about');  
+        Route::get('/register', 'register')->name('register'); 
+});
+
+Route::prefix('auth')->name('auth.')->controller(AuthController::class)->group(function () {
+    Route::post('/login', 'login')->name('login');
+    Route::post('/logout', 'logout')->name('logout');
+});
+
+
+// Route::prefix('dashboard/')->controller(AdminController::class)->group(function () {
+//     Route::get('', 'index')->name('admin.dashboard');
 // });
+Route::prefix('dashboard/')->middleware(['auth', 'permission:dashboard.view'])
+    ->controller(AdminController::class)->group(function () {
+    Route::get('', 'index')->name('admin.dashboard');
+});
+
+Route::prefix('knowledge/')->controller(KnowledgeController::class)->group(function () {
+
+    Route::get('create', 'create')->name('knowledge.create');
+
+    Route::post('create', 'store')->name('knowledge.store');
+});
 
 
-Route::get('/', [HomeHomeController::class, 'index'])->name('home.index');
-Route::get('/about', [HomeHomeController::class, 'about'])->name('home.about');
+Route::prefix('subtopic/')->controller(SubTopicController::class)->group(function () {
+
+    Route::get('', 'index')->name('subtopic.index');
+
+    Route::get('create')->name('subtopic.create');
+
+    Route::get('edit/{id}')->name('subtopic.edit');
+
+    Route::delete('delete')->name('subtopic.destroy');
+});
 
 
-Route::get('/login',[HomeHomeController::class, 'login'])->name('home.login');
-Route::get('/register', [HomeHomeController::class, 'register'])->name('home.register');
-
-
-
-Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
-
-
-Route::get('/dashboard', [HomeController::class, 'index'])->name('admin.dashboard');
-
-
-
-Route::prefix('topic')->controller(TopicController::class)->group(function(){
+Route::prefix('topic')->controller(TopicController::class)->group(function () {
 
     Route::get('/', 'index')->name('topic.index');
 
@@ -49,14 +75,16 @@ Route::prefix('topic')->controller(TopicController::class)->group(function(){
 
     Route::get('/active-topic', 'activeTopic')->name('topic.active');
 
+    Route::get('/get-sub-topic', 'getSubtopic')->name('topic.getSubTopic');
+
     // Route::get('/get-trash-data', 'getTrashDataByUserIdAndFileId')->name('topic.trashData');
 });
 
 
-Route::prefix('users')->controller(UserController::class)->group(function(){
-     
+Route::prefix('users')->controller(UserController::class)->group(function () {
+
     Route::get('/', 'index')->name('users.index');
-    
+
     Route::get('/show/{id}', 'show')->name('users.show');
 
     // Create - Form
@@ -70,7 +98,7 @@ Route::prefix('users')->controller(UserController::class)->group(function(){
 
     // // Update - Handle edit submission
     Route::put('/update/{id}', 'update')->name('users.update');
-    
+
 
     Route::delete('/delete-image/{id}', 'deleteImage')->name('users.deleteImage');
     Route::delete('/delete/{id}', 'delete')->name('users.delete');
@@ -82,6 +110,3 @@ Route::prefix('users')->controller(UserController::class)->group(function(){
 
     Route::post('/store-topic', 'storeTopic')->name('users.topic');
 });
-
-
-

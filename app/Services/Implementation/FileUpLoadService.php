@@ -23,12 +23,15 @@ class FileUpLoadService implements FileUpLoadServiceInterface
 
     ): string {
         if ($oldFilename) {
+
             $this->moveToTrash($oldFilename, $path, $disk, $ownerId, $context);
         }
-
+        
         $originalName = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+        
         $extension = $file->getClientOriginalExtension();
         $filename = $originalName . '_' . now()->timestamp . '.' . $extension;
+
         $file->storeAs($path, $filename, $disk);
 
         return $filename;
@@ -55,8 +58,12 @@ class FileUpLoadService implements FileUpLoadServiceInterface
         $trashDir = Upload::TRASH_FOLDER;
         $oldPath = $originalPath . '/' . $oldFilename;
         $newPath = $trashDir . '/'. '$id' . $oldFilename;
+        
+      
 
         Storage::disk($disk)->move($oldPath, $newPath);
+
+       
 
 
 

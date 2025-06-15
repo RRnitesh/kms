@@ -1,6 +1,8 @@
 <?php
 
+namespace App\Repository\Interface;
+
 interface AuthRepositoryInterface
 {
-  public function checkLogin();
+  
 }

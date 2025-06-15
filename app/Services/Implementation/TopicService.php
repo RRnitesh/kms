@@ -2,6 +2,7 @@
 
 namespace App\Services\Implementation;
 
+use App\DTO\SubTopicDTO\SubTopicDTO;
 use App\DTO\TopicDTO\TopicDTO;
 use App\DTO\TopicDTO\TopicResponseDTO;
 use App\Repository\Interface\TopicRepositoryInterface;
@@ -16,18 +17,18 @@ class TopicService extends BaseService implements TopicServiceInterface // anywh
   public function __construct(TopicRepositoryInterface $topicRepo) {
 
     parent::__construct($topicRepo);
-    $this->topicRepo = $topicRepo;
   }
   
     public function getAll()
   {
     $topics = parent::getAll();
+    
     return TopicResponseDTO::fromCollection($topics);
   }
 
   public function getById($id)
   {
-    $topic = parent::getWithRelations($id, ['user']);
+    $topic = $this->getWithRelations($id, ['user']);
     return TopicResponseDTO::fromModel($topic);
   }
 
@@ -50,6 +51,16 @@ class TopicService extends BaseService implements TopicServiceInterface // anywh
     $data['sort_order'] = $lastOrder + 1;
 
     return $this->topicRepo->create($data);
+  }
+
+
+    public function getActiveSubTopicsByTopicId($topicId) 
+  {
+    $topics = $this->getWithRelations($topicId, ['subtopic']);
+  
+    $activeSubTopics = $topics->subtopic->where('status', true);
+
+    return SubTopicDTO::idAndNameCollection($activeSubTopics);
   }
   
 }

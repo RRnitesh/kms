@@ -1,16 +1,12 @@
 <?php
 
-use App\Models\User;
+namespace App\Repository\Implementation;
 
-class AuthRepository
+use App\Repository\Interface\AuthRepositoryInterface;
+
+class AuthRepository implements AuthRepositoryInterface
 {
-  protected $model;
-  public function __construct(User $model) {
-    $this->model = $model;
-  }
-
-  public function checkLogin()  {
 
 
-  }
+
 }

@@ -71,6 +71,7 @@ class UserService extends BaseService implements UserServiceInterface
     // update user
     public function updateUser($id, $data, ?UploadedFile $file = null)
     {
+        // dd($file);
         $user = $this->userRepository->find($id);
         if ($file)  // if user have uploaded the image 
         {
@@ -78,11 +79,11 @@ class UserService extends BaseService implements UserServiceInterface
                 file: $file,
                 path: Upload::USER_PROFILE_PATH,
                 disk: 'public',
-                oldFilename: $user->profile_image,
+                oldFilename: $user->profile_image_path,
                 ownerId: $id, // may need for deletetion or check if oldfile is present. 
                 context: 'user-profile',
             );
-            $data['profile_image'] = $newFilename;
+            $data['profile_image_path'] = $newFilename;
         }
         //hit user repo
         $this->userRepository->update($id,  $data);
@@ -93,7 +94,7 @@ class UserService extends BaseService implements UserServiceInterface
         $user = $this->userRepository->find($id);
 
         if ($this->fileService->deleteAndTrash(
-            filename: $user->profile_image,
+            filename: $user->profile_image_path,
             path: Upload::USER_PROFILE_PATH,
             disk: 'public',
             ownerId: $user->id,
@@ -103,7 +104,7 @@ class UserService extends BaseService implements UserServiceInterface
             $user->profile_image = null;
 
             $this->userRepository->update($user->id, [
-                'profile_image' => null,
+                'profile_image_path' => null,
             ]);
         }
 

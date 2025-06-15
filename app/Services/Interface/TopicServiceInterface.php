@@ -12,4 +12,6 @@ interface TopicServiceInterface extends BaseServiceInterface
   public function getActiveTopics();
 
   public function createWithAutoSort( TopicDTO $topicDTO);
+
+  public function getActiveSubTopicsByTopicId($topicId);
 }
